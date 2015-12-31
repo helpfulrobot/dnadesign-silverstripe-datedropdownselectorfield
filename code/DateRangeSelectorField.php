@@ -6,87 +6,92 @@
  *
  * @package datedropdownselectorfield
  */
-class DateRangeSelectorField extends CompositeField {
+class DateRangeSelectorField extends CompositeField
+{
 
-	protected $from;
+    protected $from;
 
-	protected $to;
+    protected $to;
 
-	public function __construct($name, $title = null, $value = null) {
-		$this->name = $name;
-		$this->setTitle($title);
+    public function __construct($name, $title = null, $value = null)
+    {
+        $this->name = $name;
+        $this->setTitle($title);
 
-		parent::__construct(array(
-			$this->from = new DateSelectorField($this->name, $title, null, 'From'),
-			$this->to = new DateSelectorField($this->name, $title, null, 'To'),
-		));
+        parent::__construct(array(
+            $this->from = new DateSelectorField($this->name, $title, null, 'From'),
+            $this->to = new DateSelectorField($this->name, $title, null, 'To'),
+        ));
 
-		$this->from->addExtraClass('rangeselectedfrom');
-		$this->to->addExtraClass('rangeselectedto');
+        $this->from->addExtraClass('rangeselectedfrom');
+        $this->to->addExtraClass('rangeselectedto');
 
-		$this->setValue($value);
-	}
+        $this->setValue($value);
+    }
 
-	public function hasData() {
-		return true;
-	}
+    public function hasData()
+    {
+        return true;
+    }
 
-	public function getValue() {
-		return $this->value;
-	}
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-	/**
-	 * Set the field name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-		$this->from->setName($name);
-		$this->to->setName($name);
-		return $this;
-	}
+    /**
+     * Set the field name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->from->setName($name);
+        $this->to->setName($name);
+        return $this;
+    }
 
-	public function setValue($value, $data = null) {
-		if(is_array($value)) {
-			if (isset($value['FromDay'])) {
-				$dF = $value['FromDay'];
-			}
+    public function setValue($value, $data = null)
+    {
+        if (is_array($value)) {
+            if (isset($value['FromDay'])) {
+                $dF = $value['FromDay'];
+            }
 
-			if (isset($value['FromMonth'])) {
-				$mF = $value['FromMonth'];
-			}
+            if (isset($value['FromMonth'])) {
+                $mF = $value['FromMonth'];
+            }
 
-			if (isset($value['FromYear'])) {
-				$yF = $value['FromYear'];
-			}
+            if (isset($value['FromYear'])) {
+                $yF = $value['FromYear'];
+            }
 
-			if (isset($value['ToDay'])) {
-				$dT = $value['ToDay'];
-			}
+            if (isset($value['ToDay'])) {
+                $dT = $value['ToDay'];
+            }
 
-			if (isset($value['ToMonth'])) {
-				$mT = $value['ToMonth'];
-			}
+            if (isset($value['ToMonth'])) {
+                $mT = $value['ToMonth'];
+            }
 
-			if (isset($value['ToYear'])) {
-				$yT = $value['ToYear'];
-			}
+            if (isset($value['ToYear'])) {
+                $yT = $value['ToYear'];
+            }
 
-			$value = $yF . '-' . $mF . '-' . $dF . '-to-' . $yT . '-' . $mT . '-' . $dT;
-		}
+            $value = $yF . '-' . $mF . '-' . $dF . '-to-' . $yT . '-' . $mT . '-' . $dT;
+        }
 
-		if (strpos($value, '-to-') !== FALSE) {
-			$valueArray = explode('-to-', $value);
-			$i = 0;
+        if (strpos($value, '-to-') !== false) {
+            $valueArray = explode('-to-', $value);
+            $i = 0;
 
-			foreach ($this->getChildren() as $child) {
-				$child->setValue($valueArray[$i]);
-				$i++;
-			}
+            foreach ($this->getChildren() as $child) {
+                $child->setValue($valueArray[$i]);
+                $i++;
+            }
 
-			$this->value = $value;
-		}
+            $this->value = $value;
+        }
 
-		return $this;
-	}
-
+        return $this;
+    }
 }
